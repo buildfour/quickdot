@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickDot - Complete Demo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-card">
+            <div class="login-logo">
+                <i class="fas fa-bolt"></i>
+                <span>QuickDot</span>
+            </div>
+            <h1 class="login-title">Welcome to QuickDot</h1>
+            <p class="login-subtitle">Fast, Simple, Powerful Polkadot Wallet</p>
+            <button class="demo-login-btn" onclick="loginDemo()">
+                <i class="fas fa-play"></i>
+                Enter Demo
+            </button>
+            <p class="demo-note">This is a fully functional demo. Click to explore all features!</p>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="main-app" class="hidden">
+        <header class="header">
+            <div class="logo" onclick="showPage('dashboard')">
+                <i class="fas fa-bolt"></i>
+                <span>QuickDot</span>
+            </div>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search transactions, addresses..." id="search-input">
+            </div>
+            <div class="header-right">
+                <button class="notification-btn" onclick="showNotifications()">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge"></span>
+                </button>
+                <div class="network-status">
+                    <div class="status-dot"></div>
+                    <span>Polkadot</span>
+                </div>
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="user-menu" onclick="toggleUserMenu()">
+                    <div class="user-avatar">QD</div>
+                    <div class="user-info">
+                        <div class="user-name">Demo Account</div>
+                        <div class="user-address">5Grw...8rav</div>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <aside class="sidebar">
+                <nav>
+                    <div class="nav-section">
+                        <div class="nav-section-title">Main</div>
+                        <div class="nav-item active" onclick="showPage('dashboard')" data-page="dashboard">
+                            <div class="nav-item-left">
+                                <i class="fas fa-home"></i>
+                                <span>Dashboard</span>
+                            </div>
+                        </div>
+                        <div class="nav-item" onclick="showPage('wallet')" data-page="wallet">
+                            <div class="nav-item-left">
+                                <i class="fas fa-wallet"></i>
+                                <span>My Wallet</span>
+                            </div>
+                        </div>
+                        <div class="nav-item" onclick="showPage('portfolio')" data-page="portfolio">
+                            <div class="nav-item-left">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Portfolio</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="nav-section">
+                        <div class="nav-section-title">Transactions</div>
+                        <div class="nav-item" onclick="showPage('send')" data-page="send">
+                            <div class="nav-item-left">
+                                <i class="fas fa-paper-plane"></i>
+                                <span>Send</span>
+                            </div>
+                        </div>
+                        <div class="nav-item" onclick="showPage('receive')" data-page="receive">
+                            <div class="nav-item-left">
+                                <i class="fas fa-qrcode"></i>
+                                <span>Receive</span>
+                            </div>
+                        </div>
+                        <div class="nav-item" onclick="showPage('history')" data-page="history">
+                            <div class="nav-item-left">
+                                <i class="fas fa-history"></i>
+                                <span>History</span>
+                            </div>
+                            <span class="nav-badge">24</span>
+                        </div>
+                    </div>
+
+                    <div class="nav-section">
+                        <div class="nav-section-title">Management</div>
+                        <div class="nav-item" onclick="showPage('contacts')" data-page="contacts">
+                            <div class="nav-item-left">
+                                <i class="fas fa-address-book"></i>
+                                <span>Contacts</span>
+                            </div>
+                        </div>
+                        <div class="nav-item" onclick="showPage('account')" data-page="account">
+                            <div class="nav-item-left">
+                                <i class="fas fa-user-circle"></i>
+                                <span>Account</span>
+                            </div>
+                        </div>
+                        <div class="nav-item" onclick="showPage('settings')" data-page="settings">
+                            <div class="nav-item-left">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </aside>
+
+            <main class="main-content">
+                <!-- Dashboard Page -->
+                <div id="dashboard" class="page active">
+                    <div class="page-header">
+                        <h1 class="page-title">Welcome back!</h1>
+                        <p class="page-subtitle">Here's what's happening with your wallet today.</p>
+                    </div>
+
+                    <div class="hero-card">
+                        <div class="hero-content">
+                            <div class="hero-label">Total Balance</div>
+                            <div class="hero-balance">18,245.50 DOT</div>
+                            <div class="hero-usd">≈ $18,245.50 USD</div>
+                            <div class="hero-price">
+                                <span>1 DOT = $1.00</span>
+                                <span class="price-change">
+                                    <i class="fas fa-arrow-up"></i> +2.5%
+                                </span>
+                            </div>
+                        </div>
+                        <div class="quick-actions-grid">
+                            <button class="action-btn" onclick="showPage('send')">
+                                <i class="fas fa-paper-plane"></i>
+                                <span>Send</span>
+                            </button>
+                            <button class="action-btn" onclick="showPage('receive')">
+                                <i class="fas fa-qrcode"></i>
+                                <span>Receive</span>
+                            </button>
+                            <button class="action-btn" onclick="showSwapModal()">
+                                <i class="fas fa-exchange-alt"></i>
+                                <span>Swap</span>
+                            </button>
+                            <button class="action-btn" onclick="showPage('history')">
+                                <i class="fas fa-history"></i>
+                                <span>History</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="stats-row">
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-icon-wrapper">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="stat-trend up">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>12.5%</span>
+                                </div>
+                            </div>
+                            <div class="stat-label">Available Balance</div>
+                            <div class="stat-value">18,245.50 DOT</div>
+                            <div class="stat-subtext">≈ $18,245.50 USD</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-icon-wrapper">
+                                    <i class="fas fa-arrow-up"></i>
+                                </div>
+                                <div class="stat-trend down">
+                                    <i class="fas fa-arrow-down"></i>
+                                    <span>3.2%</span>
+                                </div>
+                            </div>
+                            <div class="stat-label">Total Sent</div>
+                            <div class="stat-value">2,475.00 DOT</div>
+                            <div class="stat-subtext">18 transactions this month</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-icon-wrapper">
+                                    <i class="fas fa-arrow-down"></i>
+                                </div>
+                                <div class="stat-trend up">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>8.7%</span>
+                                </div>
+                            </div>
+                            <div class="stat-label">Total Received</div>
+                            <div class="stat-value">3,200.00 DOT</div>
+                            <div class="stat-subtext">12 transactions this month</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-icon-wrapper">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="stat-trend up">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>15.3%</span>
+                                </div>
+                            </div>
+                            <div class="stat-label">Portfolio Growth</div>
+                            <div class="stat-value">+2,970.50 DOT</div>
+                            <div class="stat-subtext">7-day performance</div>
+                        </div>
+                    </div>
+
+                    <div class="content-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Recent Transactions</div>
+                                <div class="view-all-link" onclick="showPage('history')">View All</div>
+                            </div>
+                            <div id="recent-transactions">
+                                <!-- Transactions will be loaded by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="card" style="margin-bottom: 1.5rem;">
+                                <div class="card-header">
+                                    <div class="card-title">Quick Send</div>
+                                    <div class="view-all-link" onclick="showPage('contacts')">View All</div>
+                                </div>
+                                <div id="quick-contacts">
+                                    <!-- Quick contacts will be loaded by JavaScript -->
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">Recent Activity</div>
+                                </div>
+                                <div id="recent-activity">
+                                    <!-- Activities will be loaded by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wallet Page -->
+                <div id="wallet" class="page">
+                    <div class="page-header">
+                        <h1 class="page-title">My Wallet</h1>
+                        <p class="page-subtitle">Detailed account information and balance breakdown.</p>
+                    </div>
+
+                    <div class="stats-row">
+                        <div class="card">
+                            <div class="card-title" style="margin-bottom: 1rem;">Account Overview</div>
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                <div class="user-avatar" style="width: 60px; height: 60px; font-size: 1.5rem;">QD</div>
+                                <div>
+                                    <div style="font-weight: 700; font-size: 1.2rem; margin-bottom: 0.25rem;">Demo Account</div>
+                                    <div style="color: var(--text-secondary); font-size: 0.9rem;">Created 3 months ago</div>
+                                </div>
+                            </div>
+                            <div class="address-display">
+                                <div class="address-text">5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY</div>
+                                <button class="copy-btn" onclick="copyToClipboard('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')">
+                                    <i class="fas fa-copy"></i> Copy Address
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-title" style="margin-bottom: 1rem;">Balance Breakdown</div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                                <span style="color: var(--text-secondary);">Available Balance</span>
+                                <span style="font-weight: 700;">18,245.50 DOT</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                                <span style="color: var(--text-secondary);">Reserved Balance</span>
+                                <span style="font-weight: 700;">0.00 DOT</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                                <span style="color: var(--text-secondary);">Pending Transactions</span>
+                                <span style="font-weight: 700;">0.00 DOT</span>
+                            </div>
+                            <hr style="border: none; border-top: 1px solid var(--border-color); margin: 1rem 0;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-weight: 700;">Total Balance</span>
+                                <span style="font-weight: 800; color: var(--primary-color);">18,245.50 DOT</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-row">
+                        <div class="card">
+                            <div class="card-title" style="margin-bottom: 1rem;">Account Statistics</div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                                <span style="color: var(--text-secondary);">Total Transactions</span>
+                                <span style="font-weight: 700;">247</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                                <span style="color: var(--text-secondary);">First Transaction</span>
+                                <span style="font-weight: 700;">3 months ago</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                                <span style="color: var(--text-secondary);">Last Activity</span>
+                                <span style="font-weight: 700;">2 hours ago</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="color: var(--text-secondary);">Average Transaction</span>
+                                <span style="font-weight: 700;">74.21 DOT</span>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-title" style="margin-bottom: 1rem;">Security Status</div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                                <span style="color: var(--text-secondary);">Backup Status</span>
+                                <span style="color: var(--success); font-weight: 700;"><i class="fas fa-check"></i> Complete</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                                <span style="color: var(--text-secondary);">Last Backup</span>
+                                <span style="font-weight: 700;">1 week ago</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <span style="color: var(--text-secondary);">Security Score</span>
+                                <span style="color: var(--success); font-weight: 700;">95/100</span>
+                            </div>
+                            <button class="setting-button" onclick="showBackupModal()">
+                                <i class="fas fa-shield-alt"></i> View Backup
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Page -->
+                <div id="portfolio" class="page">
+                    <div class="page-header">
+                        <h1 class="page-title">Portfolio Analytics</h1>
+                        <p class="page-subtitle">Track your portfolio performance and transaction patterns.</p>
+                    </div>
+
+                    <div class="portfolio-chart">
+                        <div class="card-header">
+                            <div class="card-title">Balance History</div>
+                            <div class="timeframe-selector">
+                                <button class="timeframe-btn active" onclick="selectTimeframe(this, '1D')">1D</button>
+                                <button class="timeframe-btn" onclick="selectTimeframe(this, '7D')">7D</button>
+                                <button class="timeframe-btn" onclick="selectTimeframe(this, '1M')">1M</button>
+                                <button class="timeframe-btn" onclick="selectTimeframe(this, '3M')">3M</button>
+                                <button class="timeframe-btn" onclick="selectTimeframe(this, '1Y')">1Y</button>
+                                <button class="timeframe-btn" onclick="selectTimeframe(this, 'ALL')">ALL</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <i class="fas fa-chart-line"></i>
+                            <div style="margin-left: 1rem;">
+                                <div>Portfolio Chart</div>
+                                <div style="font-size: 0.9rem; margin-top: 0.25rem;">Interactive chart would display here</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-row">
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-icon-wrapper">
+                                    <i class="fas fa-trending-up"></i>
+                                </div>
+                                <div class="stat-trend up">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>24.8%</span>
+                                </div>
+                            </div>
+                            <div class="stat-label">All-Time High</div>
+                            <div class="stat-value">22,150.75 DOT</div>
+                            <div class="stat-subtext">Reached 2 weeks ago</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-icon-wrapper">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </div>
+                                <div class="stat-trend up">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>12.3%</span>
+                                </div>
+                            </div>
+                            <div class="stat-label">Monthly Volume</div>
+                            <div class="stat-value">5,675.00 DOT</div>
+                            <div class="stat-subtext">30 transactions</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-icon-wrapper">
+                                    <i class="fas fa-calculator"></i>
+                                </div>
+                                <div class="stat-trend down">
+                                    <i class="fas fa-arrow-down"></i>
+                                    <span>5.1%</span>
+                                </div>
+                            </div>
+                            <div class="stat-label">Avg Transaction Size</div>
+                            <div class="stat-value">189.17 DOT</div>
+                            <div class="stat-subtext">Based on 30 days</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Send Page -->
+                <div id="send" class="page">
+                    <div class="page-header">
+                        <h1 class="page-title">Send DOT</h1>
+                        <p class="page-subtitle">Send DOT tokens to any Polkadot address.</p>
+                    </div>
+
+                    <div class="send-form">
+                        <div class="form-group">
+                            <label class="form-label">Recipient Address</label>
+                            <div class="form-input-group">
+                                <input type="text" class="form-input" id="recipient-address" placeholder="Enter Polkadot address or select from contacts">
+                                <button class="input-btn" onclick="showContactSelector()">
+                                    <i class="fas fa-address-book"></i>
+                                </button>
+                                <button class="input-btn" onclick="scanQRCode()">
+                                    <i class="fas fa-qrcode"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Amount</label>
+                            <div class="form-input-group">
+                                <input type="number" class="form-input" id="send-amount" placeholder="0.00" step="0.01">
+                                <div style="display: flex; align-items: center; padding: 0 1rem; background: var(--bg-primary); border-radius: 8px; font-weight: 700;">DOT</div>
+                                <button class="input-btn" onclick="setMaxAmount()">MAX</button>
+                            </div>
+                            <div style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-secondary);">
+                                Available: 18,245.50 DOT
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Transaction Fee</label>
+                            <div class="fee-options">
+                                <div class="fee-option selected" onclick="selectFeeOption(this, 'slow')">
+                                    <div class="fee-title">Slow</div>
+                                    <div class="fee-amount">0.01 DOT</div>
+                                    <div class="fee-time">~5 minutes</div>
+                                </div>
+                                <div class="fee-option" onclick="selectFeeOption(this, 'standard')">
+                                    <div class="fee-title">Standard</div>
+                                    <div class="fee-amount">0.02 DOT</div>
+                                    <div class="fee-time">~2 minutes</div>
+                                </div>
+                                <div class="fee-option" onclick="selectFeeOption(this, 'fast')">
+                                    <div class="fee-title">Fast</div>
+                                    <div class="fee-amount">0.05 DOT</div>
+                                    <div class="fee-time">~30 seconds</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Note (Optional)</label>
+                            <input type="text" class="form-input" id="transaction-note" placeholder="Add a note for your records">
+                        </div>
+
+                        <div style="background: var(--bg-primary); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Amount:</span>
+                                <span id="total-amount">0.00 DOT</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Fee:</span>
+                                <span id="total-fee">0.01 DOT</span>
+                            </div>
+                            <hr style="border: none; border-top: 1px solid var(--border-color); margin: 0.5rem 0;">
+                            <div style="display: flex; justify-content: space-between; font-weight: 700;">
+                                <span>Total:</span>
+                                <span id="total-with-fee">0.01 DOT</span>
+                            </div>
+                        </div>
+
+                        <button class="send-btn" onclick="confirmSendTransaction()">
+                            <i class="fas fa-paper-plane"></i>
+                            Review & Send
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Receive Page -->
+                <div id="receive" class="page">
+                    <div class="page-header">
+                        <h1 class="page-title">Receive DOT</h1>
+                        <p class="page-subtitle">Share your address to receive DOT tokens.</p>
+                    </div>
+
+                    <div class="receive-container">
+                        <div class="qr-container">
+                            <div class="qr-code">
+                                <i class="fas fa-qrcode"></i>
+                            </div>
+                            <div class="address-display">
+                                <div class="address-text">5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY</div>
+                                <button class="copy-btn" onclick="copyToClipboard('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')">
+                                    <i class="fas fa-copy"></i> Copy Address
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="content-grid" style="margin-bottom: 0;">
+                            <div class="card">
+                                <div class="card-title" style="margin-bottom: 1rem;">Share Options</div>
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                                    <button class="contact-btn" onclick="shareViaEmail()">
+                                        <i class="fas fa-envelope"></i> Email
+                                    </button>
+                                    <button class="contact-btn" onclick="shareViaSMS()">
+                                        <i class="fas fa-sms"></i> SMS
+                                    </button>
+                                    <button class="contact-btn" onclick="shareViaWhatsApp()">
+                                        <i class="fab fa-whatsapp"></i> WhatsApp
+                                    </button>
+                                    <button class="contact-btn" onclick="downloadQR()">
+                                        <i class="fas fa-download"></i> Download
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-title" style="margin-bottom: 1rem;">Request Payment</div>
+                                <div class="form-group">
+                                    <input type="number" class="form-input" placeholder="Amount (optional)" style="margin-bottom: 0.5rem;">
+                                    <input type="text" class="form-input" placeholder="Note (optional)" style="margin-bottom: 1rem;">
+                                    <button class="contact-btn primary" onclick="generatePaymentRequest()">
+                                        Generate Request
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Page -->
+                <div id="history" class="page">
+                    <div class="page-header">
+                        <h1 class="page-title">Transaction History</h1>
+                        <p class="page-subtitle">View and manage all your transactions.</p>
+                    </div>
+
+                    <div class="card">
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                            <div class="form-input-group" style="flex: 1; min-width: 200px;">
+                                <i class="fas fa-search" style="margin: 0 0.5rem; color: var(--text-secondary);"></i>
+                                <input type="text" class="form-input" placeholder="Search transactions..." style="border: none; padding: 0.5rem;">
+                            </div>
+                            <select class="form-input" style="width: auto;">
+                                <option>All Transactions</option>
+                                <option>Sent</option>
+                                <option>Received</option>
+                                <option>Pending</option>
+                                <option>Failed</option>
+                            </select>
+                            <input type="date" class="form-input" style="width: auto;">
+                            <button class="setting-button">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
+
+                        <div id="transaction-history">
+                            <!-- Transactions will be loaded by JavaScript -->
+                        </div>
+
+                        <div style="display: flex; justify-content: between; align-items: center; margin-top: 1.5rem;">
+                            <div style="color: var(--text-secondary); font-size: 0.9rem;">
+                                Showing 1-10 of 247 transactions
+                            </div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="setting-button">Previous</button>
+                                <button class="setting-button">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contacts Page -->
+                <div id="contacts" class="page">
+                    <div class="contacts-header">
+                        <div>
+                            <h1 class="page-title">Contacts</h1>
+                            <p class="page-subtitle">Manage your address book for quick transactions.</p>
+                        </div>
+                        <button class="add-contact-btn" onclick="showAddContactModal()">
+                            <i class="fas fa-plus"></i> Add Contact
+                        </button>
+                    </div>
+
+                    <div class="contacts-grid" id="contacts-grid">
+                        <!-- Contacts will be loaded by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Account Page -->
+                <div id="account" class="page">
+                    <div class="page-header">
+                        <h1 class="page-title">Account Management</h1>
+                        <p class="page-subtitle">Manage your account settings and security options.</p>
+                    </div>
+
+                    <div class="settings-sections">
+                        <div class="settings-section">
+                            <div class="settings-section-title">Profile Information</div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Account Name</div>
+                                    <div class="setting-description">Demo Account</div>
+                                </div>
+                                <button class="setting-button">Edit</button>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Account Address</div>
+                                    <div class="setting-description">5Grw...8rav</div>
+                                </div>
+                                <button class="setting-button" onclick="copyToClipboard('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')">Copy</button>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <div class="settings-section-title">Security & Backup</div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Backup Seed Phrase</div>
+                                    <div class="setting-description">View your recovery phrase</div>
+                                </div>
+                                <button class="setting-button" onclick="showBackupModal()">View</button>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Export Private Key</div>
+                                    <div class="setting-description">Export account private key</div>
+                                </div>
+                                <button class="setting-button" onclick="showPrivateKeyModal()">Export</button>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Auto-lock Timeout</div>
+                                    <div class="setting-description">15 minutes</div>
+                                </div>
+                                <button class="setting-button">Change</button>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <div class="settings-section-title">Danger Zone</div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Clear Cache</div>
+                                    <div class="setting-description">Clear transaction cache and local data</div>
+                                </div>
+                                <button class="setting-button">Clear</button>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Sign Out</div>
+                                    <div class="setting-description">Sign out of your account</div>
+                                </div>
+                                <button class="setting-button" onclick="signOut()">Sign Out</button>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Delete Account</div>
+                                    <div class="setting-description">Permanently delete this account</div>
+                                </div>
+                                <button class="setting-button danger" onclick="showDeleteAccountModal()">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Page -->
+                <div id="settings" class="page">
+                    <div class="page-header">
+                        <h1 class="page-title">Settings</h1>
+                        <p class="page-subtitle">Customize your wallet preferences and notifications.</p>
+                    </div>
+
+                    <div class="settings-sections">
+                        <div class="settings-section">
+                            <div class="settings-section-title">Display Preferences</div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Theme</div>
+                                    <div class="setting-description">Choose light or dark theme</div>
+                                </div>
+                                <div class="toggle-switch" onclick="toggleTheme()">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Display Currency</div>
+                                    <div class="setting-description">USD</div>
+                                </div>
+                                <button class="setting-button">Change</button>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Language</div>
+                                    <div class="setting-description">English</div>
+                                </div>
+                                <button class="setting-button">Change</button>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <div class="settings-section-title">Notifications</div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Transaction Notifications</div>
+                                    <div class="setting-description">Get notified about transactions</div>
+                                </div>
+                                <div class="toggle-switch active" onclick="toggleSetting(this)">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Balance Alerts</div>
+                                    <div class="setting-description">Alert when balance changes</div>
+                                </div>
+                                <div class="toggle-switch active" onclick="toggleSetting(this)">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Price Alerts</div>
+                                    <div class="setting-description">Get DOT price notifications</div>
+                                </div>
+                                <div class="toggle-switch" onclick="toggleSetting(this)">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <div class="settings-section-title">Privacy</div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Hide Balance</div>
+                                    <div class="setting-description">Hide balance on dashboard</div>
+                                </div>
+                                <div class="toggle-switch" onclick="toggleSetting(this)">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Analytics</div>
+                                    <div class="setting-description">Share usage analytics</div>
+                                </div>
+                                <div class="toggle-switch" onclick="toggleSetting(this)">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <div class="settings-section-title">About</div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Version</div>
+                                    <div class="setting-description">QuickDot v1.0.0</div>
+                                </div>
+                                <button class="setting-button">Check Updates</button>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Terms of Service</div>
+                                    <div class="setting-description">View terms and conditions</div>
+                                </div>
+                                <button class="setting-button">View</button>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <div class="setting-name">Privacy Policy</div>
+                                    <div class="setting-description">View privacy policy</div>
+                                </div>
+                                <button class="setting-button">View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Bottom Navigation (Mobile) -->
+        <nav class="bottom-nav">
+            <div class="bottom-nav-items">
+                <div class="bottom-nav-item active" onclick="showPage('dashboard')" data-page="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="bottom-nav-item" onclick="showPage('wallet')" data-page="wallet">
+                    <i class="fas fa-wallet"></i>
+                    <span>Wallet</span>
+                </div>
+                <div class="bottom-nav-item" onclick="showPage('send')" data-page="send">
+                    <i class="fas fa-paper-plane"></i>
+                    <span>Send</span>
+                </div>
+                <div class="bottom-nav-item" onclick="showPage('history')" data-page="history">
+                    <i class="fas fa-history"></i>
+                    <span>History</span>
+                </div>
+                <div class="bottom-nav-item" onclick="showPage('account')" data-page="account">
+                    <i class="fas fa-user"></i>
+                    <span>Account</span>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Modals -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-title">Modal Title</div>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modal-body">
+                Modal content goes here
+            </div>
+            <div class="modal-footer" id="modal-footer">
+                <button class="modal-btn secondary" onclick="closeModal()">Cancel</button>
+                <button class="modal-btn primary" onclick="confirmModal()">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
