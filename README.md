@@ -6,14 +6,14 @@ A full-featured, production-ready Polkadot wallet application built with Node.js
 
 ## Features
 
-✅ **Dashboard Home** - Real-time portfolio overview with price tracking  
-✅ **Wallet Manager** - Create, import, and manage multiple Polkadot accounts  
-✅ **Portfolio Tracker** - Track your DOT holdings and USD value  
-✅ **Send Tokens** - Send DOT with QR code scanning support  
-✅ **Receive Tokens** - Generate QR codes for receiving payments  
-✅ **Transaction History** - Complete transaction log with filtering  
-✅ **Contact Manager** - Save and manage frequent contacts  
-✅ **Settings & Profile** - Theme toggle, security settings, backup options  
+**Dashboard Home** - Real-time portfolio overview with price tracking  
+**Wallet Manager** - Create, import, and manage multiple Polkadot accounts  
+**Portfolio Tracker** - Track your DOT holdings and USD value  
+**Send Tokens** - Send DOT with QR code scanning support  
+**Receive Tokens** - Generate QR codes for receiving payments  
+**Transaction History** - Complete transaction log with filtering  
+**Contact Manager** - Save and manage frequent contacts  
+**Settings & Profile** - Theme toggle, security settings, backup options  
 
 ## Tech Stack
 
