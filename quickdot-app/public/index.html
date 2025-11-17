@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="QuickDot - Fast, Simple, Powerful Polkadot Wallet">
+    <meta name="keywords" content="polkadot, wallet, cryptocurrency, blockchain, web3">
+    <meta name="author" content="MiniMax Agent">
+    
+    <title>QuickDot - Polkadot Wallet</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts - Nunito -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="/css/styles.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-card">
+            <div class="login-logo">
+                <i class="fas fa-bolt"></i>
+                <span>QuickDot</span>
+            </div>
+            <h1 class="login-title">Welcome to QuickDot</h1>
+            <p class="login-subtitle">Fast, Simple, Powerful Polkadot Wallet</p>
+            
+            <div class="login-buttons">
+                <button class="login-btn primary" id="google-login-btn">
+                    <i class="fab fa-google"></i>
+                    Sign in with Google
+                </button>
+                <button class="login-btn secondary" id="email-login-btn">
+                    <i class="fas fa-envelope"></i>
+                    Sign in with Email
+                </button>
+            </div>
+            
+            <!-- Email Login Form (hidden by default) -->
+            <form id="email-login-form" class="email-form hidden">
+                <input type="email" id="email-input" placeholder="Email address" required>
+                <input type="password" id="password-input" placeholder="Password" required>
+                <button type="submit" class="login-btn primary">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Sign In
+                </button>
+                <button type="button" class="login-btn secondary" id="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back
+                </button>
+            </form>
+            
+            <p class="demo-note">Secure authentication with Firebase. Your keys, your control.</p>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="main-app" class="hidden">
+        <header class="header">
+            <div class="logo" id="logo-btn">
+                <i class="fas fa-bolt"></i>
+                <span>QuickDot</span>
+            </div>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search transactions, addresses..." id="search-input">
+            </div>
+            <div class="header-right">
+                <button class="notification-btn" id="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="notification-badge"></span>
+                </button>
+                <div class="network-status">
+                    <div class="status-dot" id="network-dot"></div>
+                    <span id="network-name">Polkadot</span>
+                </div>
+                <button class="theme-toggle" id="theme-toggle-btn">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="user-menu" id="user-menu-btn">
+                    <div class="user-avatar" id="user-avatar">QD</div>
+                    <div class="user-info">
+                        <div class="user-name" id="user-name">Loading...</div>
+                        <div class="user-address" id="user-address-display">Connecting...</div>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <aside class="sidebar">
+                <nav>
+                    <div class="nav-section">
+                        <div class="nav-section-title">Main</div>
+                        <div class="nav-item active" data-page="dashboard">
+                            <div class="nav-item-left">
+                                <i class="fas fa-home"></i>
+                                <span>Dashboard</span>
+                            </div>
+                        </div>
+                        <div class="nav-item" data-page="wallet">
+                            <div class="nav-item-left">
+                                <i class="fas fa-wallet"></i>
+                                <span>My Wallet</span>
+                            </div>
+                        </div>
+                        <div class="nav-item" data-page="portfolio">
+                            <div class="nav-item-left">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Portfolio</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="nav-section">
+                        <div class="nav-section-title">Transactions</div>
+                        <div class="nav-item" data-page="send">
+                            <div class="nav-item-left">
+                                <i class="fas fa-paper-plane"></i>
+                                <span>Send</span>
+                            </div>
+                        </div>
+                        <div class="nav-item" data-page="receive">
+                            <div class="nav-item-left">
+                                <i class="fas fa-qrcode"></i>
+                                <span>Receive</span>
+                            </div>
+                        </div>
+                        <div class="nav-item" data-page="history">
+                            <div class="nav-item-left">
+                                <i class="fas fa-history"></i>
+                                <span>History</span>
+                            </div>
+                            <span class="nav-badge" id="history-badge">0</span>
+                        </div>
+                    </div>
+
+                    <div class="nav-section">
+                        <div class="nav-section-title">Management</div>
+                        <div class="nav-item" data-page="contacts">
+                            <div class="nav-item-left">
+                                <i class="fas fa-address-book"></i>
+                                <span>Contacts</span>
+                            </div>
+                        </div>
+                        <div class="nav-item" data-page="settings">
+                            <div class="nav-item-left">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                
+                <div class="sidebar-footer">
+                    <button class="logout-btn" id="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                <!-- Dashboard Page -->
+                <div id="dashboard" class="page active">
+                    <div class="page-header">
+                        <h1 class="page-title">Welcome back!</h1>
+                        <p class="page-subtitle">Here's what's happening with your wallet today.</p>
+                    </div>
+
+                    <div class="hero-card">
+                        <div class="hero-content">
+                            <div class="hero-label">Total Balance</div>
+                            <div class="hero-balance" id="total-balance">0.0000 DOT</div>
+                            <div class="hero-usd" id="total-balance-usd">≈ $0.00 USD</div>
+                            <div class="hero-price">
+                                <span id="dot-price">1 DOT = $0.00</span>
+                                <span class="price-change" id="price-change">
+                                    <i class="fas fa-arrow-up"></i> +0.0%
+                                </span>
+                            </div>
+                        </div>
+                        <div class="quick-actions-grid">
+                            <button class="action-btn" data-action="send">
+                                <i class="fas fa-paper-plane"></i>
+                                <span>Send</span>
+                            </button>
+                            <button class="action-btn" data-action="receive">
+                                <i class="fas fa-qrcode"></i>
+                                <span>Receive</span>
+                            </button>
+                            <button class="action-btn" data-action="wallet">
+                                <i class="fas fa-wallet"></i>
+                                <span>Wallets</span>
+                            </button>
+                            <button class="action-btn" data-action="history">
+                                <i class="fas fa-history"></i>
+                                <span>History</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="stats-row">
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-icon-wrapper">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="stat-trend" id="balance-trend">
+                                    <i class="fas fa-minus"></i>
+                                    <span>0.0%</span>
+                                </div>
+                            </div>
+                            <div class="stat-label">Available Balance</div>
+                            <div class="stat-value" id="stat-available">0.0000 DOT</div>
+                            <div class="stat-subtext" id="stat-available-usd">≈ $0.00 USD</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-icon-wrapper">
+                                    <i class="fas fa-paper-plane"></i>
+                                </div>
+                            </div>
+                            <div class="stat-label">Total Sent</div>
+                            <div class="stat-value" id="stat-sent">0.0000 DOT</div>
+                            <div class="stat-subtext" id="stat-sent-count">0 transactions</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-icon-wrapper">
+                                    <i class="fas fa-download"></i>
+                                </div>
+                            </div>
+                            <div class="stat-label">Total Received</div>
+                            <div class="stat-value" id="stat-received">0.0000 DOT</div>
+                            <div class="stat-subtext" id="stat-received-count">0 transactions</div>
+                        </div>
+                    </div>
+
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <div class="card-header">
+                                <h3>Recent Transactions</h3>
+                                <button class="text-btn" data-action="history">View All</button>
+                            </div>
+                            <div id="recent-transactions">
+                                <div class="empty-state">
+                                    <i class="fas fa-exchange-alt"></i>
+                                    <p>No transactions yet</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <div class="card-header">
+                                <h3>My Wallets</h3>
+                                <button class="text-btn" data-action="wallet">Manage</button>
+                            </div>
+                            <div id="wallet-list-dashboard">
+                                <div class="empty-state">
+                                    <i class="fas fa-wallet"></i>
+                                    <p>No wallets created yet</p>
+                                    <button class="primary-btn" data-action="create-wallet">Create Wallet</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wallet Page -->
+                <div id="wallet" class="page">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">My Wallets</h1>
+                            <p class="page-subtitle">Manage your Polkadot accounts</p>
+                        </div>
+                        <div class="page-actions">
+                            <button class="primary-btn" id="create-wallet-btn">
+                                <i class="fas fa-plus"></i>
+                                Create Wallet
+                            </button>
+                            <button class="secondary-btn" id="import-wallet-btn">
+                                <i class="fas fa-file-import"></i>
+                                Import Wallet
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="wallet-list" class="wallet-grid">
+                        <!-- Wallets will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Portfolio Page -->
+                <div id="portfolio" class="page">
+                    <div class="page-header">
+                        <h1 class="page-title">Portfolio Overview</h1>
+                        <p class="page-subtitle">Track your investments and performance</p>
+                    </div>
+
+                    <div class="portfolio-summary">
+                        <div class="portfolio-total">
+                            <div class="portfolio-label">Total Portfolio Value</div>
+                            <div class="portfolio-value" id="portfolio-total">$0.00</div>
+                            <div class="portfolio-change" id="portfolio-change">
+                                <i class="fas fa-arrow-up"></i> +0.00%
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-row">
+                        <div class="stat-card">
+                            <div class="stat-label">Total DOT Holdings</div>
+                            <div class="stat-value" id="portfolio-dot">0.0000 DOT</div>
+                            <div class="stat-subtext" id="portfolio-wallets">0 wallets</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">24h Change</div>
+                            <div class="stat-value" id="portfolio-24h">+0.00%</div>
+                            <div class="stat-subtext">Last updated: now</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Net Flow</div>
+                            <div class="stat-value" id="portfolio-flow">+0.0000 DOT</div>
+                            <div class="stat-subtext">Received - Sent</div>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3>Wallet Allocation</h3>
+                        </div>
+                        <div id="allocation-chart">
+                            <!-- Chart will be rendered here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Send Page -->
+                <div id="send" class="page">
+                    <div class="page-header">
+                        <h1 class="page-title">Send DOT</h1>
+                        <p class="page-subtitle">Transfer tokens to another address</p>
+                    </div>
+
+                    <div class="form-container">
+                        <form id="send-form">
+                            <div class="form-group">
+                                <label>From Wallet</label>
+                                <select id="send-from-wallet" required>
+                                    <option value="">Select wallet...</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Recipient Address</label>
+                                <div class="input-with-actions">
+                                    <input type="text" id="send-to-address" placeholder="5..." required>
+                                    <button type="button" class="icon-btn" id="select-contact-btn" title="Select from contacts">
+                                        <i class="fas fa-address-book"></i>
+                                    </button>
+                                    <button type="button" class="icon-btn" id="scan-qr-btn" title="Scan QR code">
+                                        <i class="fas fa-qrcode"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Amount (DOT)</label>
+                                <div class="input-with-max">
+                                    <input type="number" id="send-amount" placeholder="0.00" step="0.0001" min="0" required>
+                                    <button type="button" class="max-btn" id="send-max-btn">MAX</button>
+                                </div>
+                                <div class="input-helper" id="send-amount-usd">≈ $0.00 USD</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Note (Optional)</label>
+                                <input type="text" id="send-note" placeholder="Payment for...">
+                            </div>
+
+                            <div class="transaction-summary">
+                                <div class="summary-row">
+                                    <span>Amount:</span>
+                                    <span id="summary-amount">0.0000 DOT</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Fee (Est.):</span>
+                                    <span id="summary-fee">0.0100 DOT</span>
+                                </div>
+                                <div class="summary-row total">
+                                    <span>Total:</span>
+                                    <span id="summary-total">0.0000 DOT</span>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="primary-btn full-width">
+                                <i class="fas fa-paper-plane"></i>
+                                Send Transaction
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Receive Page -->
+                <div id="receive" class="page">
+                    <div class="page-header">
+                        <h1 class="page-title">Receive DOT</h1>
+                        <p class="page-subtitle">Share your address to receive tokens</p>
+                    </div>
+
+                    <div class="receive-container">
+                        <div class="form-group">
+                            <label>Select Wallet</label>
+                            <select id="receive-wallet-select">
+                                <option value="">Select wallet...</option>
+                            </select>
+                        </div>
+
+                        <div class="qr-display" id="qr-display">
+                            <div id="qr-code"></div>
+                        </div>
+
+                        <div class="address-display">
+                            <div class="address-label">Your Address</div>
+                            <div class="address-value" id="receive-address">Select a wallet</div>
+                            <button class="copy-btn" id="copy-address-btn">
+                                <i class="fas fa-copy"></i>
+                                Copy Address
+                            </button>
+                        </div>
+
+                        <div class="receive-note">
+                            <i class="fas fa-info-circle"></i>
+                            Share this address to receive DOT tokens. Only send Polkadot (DOT) to this address.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Page -->
+                <div id="history" class="page">
+                    <div class="page-header">
+                        <h1 class="page-title">Transaction History</h1>
+                        <p class="page-subtitle">View all your transactions</p>
+                    </div>
+
+                    <div class="filter-bar">
+                        <div class="filter-group">
+                            <select id="filter-type">
+                                <option value="all">All Types</option>
+                                <option value="sent">Sent</option>
+                                <option value="received">Received</option>
+                            </select>
+                            <select id="filter-wallet">
+                                <option value="all">All Wallets</option>
+                            </select>
+                        </div>
+                        <button class="icon-btn" id="refresh-history-btn">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+
+                    <div class="content-card">
+                        <div id="transaction-list">
+                            <!-- Transactions will be populated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contacts Page -->
+                <div id="contacts" class="page">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">Contacts</h1>
+                            <p class="page-subtitle">Manage your saved addresses</p>
+                        </div>
+                        <button class="primary-btn" id="add-contact-btn">
+                            <i class="fas fa-plus"></i>
+                            Add Contact
+                        </button>
+                    </div>
+
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="contact-search" placeholder="Search contacts...">
+                    </div>
+
+                    <div id="contact-list" class="contact-grid">
+                        <!-- Contacts will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Settings Page -->
+                <div id="settings" class="page">
+                    <div class="page-header">
+                        <h1 class="page-title">Settings</h1>
+                        <p class="page-subtitle">Customize your QuickDot experience</p>
+                    </div>
+
+                    <div class="settings-grid">
+                        <div class="settings-card">
+                            <h3>Appearance</h3>
+                            <div class="setting-item">
+                                <div>
+                                    <div class="setting-label">Theme</div>
+                                    <div class="setting-description">Choose your preferred color scheme</div>
+                                </div>
+                                <select id="theme-select">
+                                    <option value="light">Light</option>
+                                    <option value="dark">Dark</option>
+                                    <option value="auto">Auto</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="settings-card">
+                            <h3>Currency</h3>
+                            <div class="setting-item">
+                                <div>
+                                    <div class="setting-label">Display Currency</div>
+                                    <div class="setting-description">Choose your preferred fiat currency</div>
+                                </div>
+                                <select id="currency-select">
+                                    <option value="USD">USD ($)</option>
+                                    <option value="EUR">EUR (€)</option>
+                                    <option value="GBP">GBP (£)</option>
+                                    <option value="JPY">JPY (¥)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="settings-card">
+                            <h3>Notifications</h3>
+                            <div class="setting-item">
+                                <div>
+                                    <div class="setting-label">Transaction Alerts</div>
+                                    <div class="setting-description">Get notified of incoming transactions</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="notifications-toggle" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="settings-card">
+                            <h3>Security</h3>
+                            <div class="setting-item">
+                                <button class="secondary-btn full-width">
+                                    <i class="fas fa-key"></i>
+                                    Change Password
+                                </button>
+                            </div>
+                            <div class="setting-item">
+                                <button class="danger-btn full-width">
+                                    <i class="fas fa-trash"></i>
+                                    Delete Account
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modals will be dynamically created here -->
+    <div id="modal-container"></div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="spinner"></div>
+        <div class="loading-text">Processing...</div>
+    </div>
+
+    <!-- JavaScript Modules -->
+    <script src="/js/modules/config.js"></script>
+    <script src="/js/modules/api.js"></script>
+    <script src="/js/modules/auth.js"></script>
+    <script src="/js/modules/wallet.js"></script>
+    <script src="/js/modules/transaction.js"></script>
+    <script src="/js/modules/portfolio.js"></script>
+    <script src="/js/modules/contact.js"></script>
+    <script src="/js/modules/ui.js"></script>
+    <script src="/js/modules/utils.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>
